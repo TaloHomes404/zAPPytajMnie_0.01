@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ZAPPytajMnie"
         tools:targetApi="31">
         <activity
+            android:name=".EndScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".QuizScreenActivity"
             android:exported="false" />
         <activity
