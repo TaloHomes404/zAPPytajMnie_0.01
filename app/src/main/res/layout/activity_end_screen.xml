@@ -4,63 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EndScreenActivity"
+    android:background="@drawable/tlokolorowe"
     android:orientation="vertical"
-    android:background="@drawable/tlokolorowe">
+    tools:context=".EndScreenActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
         android:text="Wynik quizu"
         android:textSize="32sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="32dp"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ImageView
             android:layout_width="320dp"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:src="@drawable/trophy"
-            android:layout_marginTop="32dp"/>
+            android:layout_marginTop="32dp"
+            android:src="@drawable/trophy" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gratulacje! Udało Ci się!"
             android:gravity="center"
+            android:text="Gratulacje! Udało Ci się!"
             android:textSize="32sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tekstNazwaGracza"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="IMIE UŻYTKOWNIKA"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:layout_marginTop="26dp"
-            />
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="IMIE UŻYTKOWNIKA" />
+
         <TextView
             android:id="@+id/tekstWynikKoncowy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:layout_marginTop="8dp"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:text="Odpowiedziałeś poprawnie na 0 z 10 pytań."/>
+            tools:text="Odpowiedziałeś poprawnie na 0 z 10 pytań."
+            android:textColor="@android:color/black"
+            android:textSize="26sp" />
+
         <Button
+            android:id="@+id/bttnZakoncz"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_margin="16dp"
             android:text="ZAKOŃCZ"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
     </LinearLayout>

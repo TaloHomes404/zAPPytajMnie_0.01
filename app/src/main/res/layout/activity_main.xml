@@ -4,31 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/tlokolorowe"
-    >
-
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="zAPPytaj mnie!"
-        android:textSize="28sp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:textStyle="bold|italic"
+        android:text="zAPPytaj mnie!"
         android:textColor="@color/black"
-        />
+        android:textSize="28sp"
+        android:textStyle="bold|italic" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:background="@color/white"
         app:cardCornerRadius="16dp">
 
         <LinearLayout
@@ -40,49 +37,46 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Witaj"
-                android:textSize="30sp"
                 android:gravity="center"
+                android:text="Witaj"
                 android:textColor="@color/black"
-                />
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wprowadź swoje imie"
-                android:textSize="16sp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                android:text="Wprowadź swoje imie"
                 android:textColor="#9ea8a1"
-                />
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginTop="20dp">
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/eTxtImie"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Imie"
-                        android:inputType="textCapWords"
-                        android:textColorHint="#9ea8a1">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/eTxtImie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Imie"
+                    android:inputType="textCapWords"
+                    android:textColorHint="#9ea8a1">
 
-                    </androidx.appcompat.widget.AppCompatEditText>
+                </androidx.appcompat.widget.AppCompatEditText>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-                        <Button
-                            android:id="@+id/bttnStart"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:background="@color/design_default_color_primary"
-                            android:text="Start"
-                            android:textColor="@color/white"
-                            />
+            <Button
+                android:id="@+id/bttnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/design_default_color_primary"
+                android:text="Start"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

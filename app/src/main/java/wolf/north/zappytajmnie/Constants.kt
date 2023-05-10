@@ -1,8 +1,11 @@
 package wolf.north.zappytajmnie
 
 object Constants {
-
-    fun dodajPytanie():ArrayList<Question>{
+    //STAŁE PROGRAMOWE - STAŁE WARTOŚCI
+    const val NAZWA_UŻYTKOWNIKA: String = "nazwa_użytkownika"
+    const val WSZYSTKIE_PYTANIA: String = "wszystkie_pytania"
+    const val POPRAWNE_ODPOWIEDZI: String = "poprawne_odpowiedzi"
+    fun dodajPytanie(): ArrayList<Question> {
         val listaPytan = ArrayList<Question>()
 
         val pytanie1 = Question(

@@ -1,5 +1,6 @@
 package wolf.north.zappytajmnie
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,10 @@ import org.w3c.dom.Text
 
 class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
     private var mObecnePytanie: Int = 1
-    private var mListaPytan:ArrayList<Question>? = null
+    private var mListaPytan: ArrayList<Question>? = null
     private var mWybranaOdpowiedzPytania: Int = 0
+    private var mNazwaUzytkownika: String? = null
+    private var mPoprawneOdp: Int = 0
 
     //ELEMENTY UI- DEKLARACJE
     private var trescPytania: TextView? = null
@@ -29,6 +32,8 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_screen)
+
+        mNazwaUzytkownika = intent.getStringExtra(Constants.NAZWA_UŻYTKOWNIKA)
 
         trescPytania = findViewById(R.id.trescPytania)
         zdjFlagi = findViewById(R.id.imgFlaga)
@@ -48,7 +53,7 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
         odpowiedz2?.setOnClickListener(this)
         odpowiedz3?.setOnClickListener(this)
         odpowiedz4?.setOnClickListener(this)
-        btnZatwierdz?.setOnClickListener{
+        btnZatwierdz?.setOnClickListener {
             funkcjonalnoscPrzyciskuOdpowiedz()
         }
 
@@ -71,33 +76,34 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
         odpowiedz3?.text = pytanie.opcjaTrzecia
         odpowiedz4?.text = pytanie.opcjaCzwarta
 
-        if(mObecnePytanie == mListaPytan!!.size){
+        if (mObecnePytanie == mListaPytan!!.size) {
             btnZatwierdz?.text = "Ukończ"
-        }else{
+        } else {
             btnZatwierdz?.text = "Odpowiedz"
         }
     }
 
-    private fun domyslnyStylPytania(){
+    private fun domyslnyStylPytania() {
         val odpowiedzi = ArrayList<TextView>()
-        odpowiedz1?.let { odpowiedzi.add(0,it) }
-        odpowiedz2?.let { odpowiedzi.add(1,it) }
-        odpowiedz3?.let { odpowiedzi.add(2,it) }
-        odpowiedz4?.let { odpowiedzi.add(3,it) }
+        odpowiedz1?.let { odpowiedzi.add(0, it) }
+        odpowiedz2?.let { odpowiedzi.add(1, it) }
+        odpowiedz3?.let { odpowiedzi.add(2, it) }
+        odpowiedz4?.let { odpowiedzi.add(3, it) }
 
-        for(odp in odpowiedzi){
+        for (odp in odpowiedzi) {
             odp.setTextColor(Color.parseColor("#000000"))
             odp.setTypeface(Typeface.DEFAULT)
-            odp.background = (ContextCompat.getDrawable(this,R.drawable.default_background_border_question))
+            odp.background =
+                (ContextCompat.getDrawable(this, R.drawable.default_background_border_question))
         }
     }
 
-    private fun zaznaczonyStylPytania(pytanie:TextView, wybranePytanie:Int){
+    private fun zaznaczonyStylPytania(pytanie: TextView, wybranePytanie: Int) {
         domyslnyStylPytania()
         mWybranaOdpowiedzPytania = wybranePytanie
         pytanie.setTextColor(Color.parseColor("#363A43"))
-        pytanie.setTypeface(pytanie.typeface,Typeface.BOLD)
-        pytanie.background = (ContextCompat.getDrawable(this,R.drawable.selected_answer_border_bg))
+        pytanie.setTypeface(pytanie.typeface, Typeface.BOLD)
+        pytanie.background = (ContextCompat.getDrawable(this, R.drawable.selected_answer_border_bg))
     }
 
     override fun onClick(v: View?) {
@@ -115,14 +121,15 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
                 odpowiedz4?.let { zaznaczonyStylPytania(it, 4) }
             }
             R.id.btnZatwierdz -> {
-                    funkcjonalnoscPrzyciskuOdpowiedz()
+                funkcjonalnoscPrzyciskuOdpowiedz()
             }
         }
     }
-    private fun funkcjonalnoscPrzyciskuOdpowiedz(){
+
+    private fun funkcjonalnoscPrzyciskuOdpowiedz() {
         //WARTOŚĆ JEST USTAWIANA NA 0 PO WCIŚNIĘCIU PRZYCISKU ZATWIERDŹ ODPOWIEDŹ
         //SPELNIAJĄC WARUNEK WCZYTUJEMY KOLEJNE PYTANIE DO QUIZU
-        if(mWybranaOdpowiedzPytania == 0) {
+        if (mWybranaOdpowiedzPytania == 0) {
             mObecnePytanie++
 
             //PÓKI MAMY PYTANIA W LIŚCIE WCZYTUJEMY JE DO QUIZU
@@ -132,25 +139,37 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 //W WYPADKU GDY PYTANIA SIĘ SKOŃCZĄ
                 //WYŚWIETLAMY WIADOMOŚĆ
-            else ->{
-                Toast.makeText(this, "Odpowiedziałeś na wszystkie pytania!", Toast.LENGTH_SHORT).show()
+                else -> {
+                    val intent = Intent(this, EndScreenActivity::class.java)
+                    intent.putExtra(Constants.NAZWA_UŻYTKOWNIKA, mNazwaUzytkownika)
+                    intent.putExtra(Constants.POPRAWNE_ODPOWIEDZI, mPoprawneOdp)
+                    intent.putExtra(Constants.WSZYSTKIE_PYTANIA, mListaPytan?.size)
+                    startActivity(intent)
+                    finish()
+                }
             }
-            }
-        }else{
-            val pytanie = mListaPytan?.get(mObecnePytanie -1)
+        } else {
+            val pytanie = mListaPytan?.get(mObecnePytanie - 1)
             //JEŻELI ODPOWIEDZ JEST NIEPOPRAWNA TO KOLORUJE JĄ NA CZERWONO, A POPRAWNĄ ZAZNACZA
             //NA ZIELONO
             //ELSE - WYBRANO POPRAWNĄ ODPOWIEDŹ - PODŚWIETLA JĄ NA ZIELONO
-            if(pytanie!!.poprawnaOdpowiedz != mWybranaOdpowiedzPytania){
-                odpowiedzNaPytanieView(mWybranaOdpowiedzPytania, R.drawable.incorrect_answer_border_bg)
-                odpowiedzNaPytanieView(pytanie.poprawnaOdpowiedz, R.drawable.correct_answer_border_bg)
-            }else{
-                odpowiedzNaPytanieView(pytanie.poprawnaOdpowiedz, R.drawable.correct_answer_border_bg)
+            if (pytanie!!.poprawnaOdpowiedz != mWybranaOdpowiedzPytania) {
+                odpowiedzNaPytanieView(
+                    mWybranaOdpowiedzPytania,
+                    R.drawable.incorrect_answer_border_bg
+                )
+                odpowiedzNaPytanieView(
+                    pytanie.poprawnaOdpowiedz,
+                    R.drawable.correct_answer_border_bg
+                )
+            } else {
+                mPoprawneOdp++
             }
+            odpowiedzNaPytanieView(pytanie.poprawnaOdpowiedz, R.drawable.correct_answer_border_bg)
             //JEŻELI DOTARLIŚMY DO OSTATNIEGO PYTANIA WYBRANIE ODPOWIEDZI ZMIENIA TEKST PRZYCISKU
-            if(mObecnePytanie == mListaPytan!!.size){
+            if (mObecnePytanie == mListaPytan!!.size) {
                 btnZatwierdz?.text = "UKOŃCZ QUIZ"
-            }else{
+            } else {
                 btnZatwierdz?.text = "NASTĘPNE PYTANIE"
             }
             //WAŻNY RESET ODPOWIEDZI, PO KAŻDYM WCIŚNIĘCIU PRZYCISKU USTAWIANA JEST NA 0
@@ -158,19 +177,20 @@ class QuizScreenActivity : AppCompatActivity(), View.OnClickListener {
             mWybranaOdpowiedzPytania = 0
         }
     }
-    private fun odpowiedzNaPytanieView(odpowiedz: Int, drawableView: Int){
-        when(odpowiedz){
+
+    private fun odpowiedzNaPytanieView(odpowiedz: Int, drawableView: Int) {
+        when (odpowiedz) {
             1 -> {
-                odpowiedz1?.background = ContextCompat.getDrawable(this,drawableView)
+                odpowiedz1?.background = ContextCompat.getDrawable(this, drawableView)
             }
             2 -> {
-                odpowiedz2?.background = ContextCompat.getDrawable(this,drawableView)
+                odpowiedz2?.background = ContextCompat.getDrawable(this, drawableView)
             }
             3 -> {
-                odpowiedz3?.background = ContextCompat.getDrawable(this,drawableView)
+                odpowiedz3?.background = ContextCompat.getDrawable(this, drawableView)
             }
             4 -> {
-                odpowiedz4?.background = ContextCompat.getDrawable(this,drawableView)
+                odpowiedz4?.background = ContextCompat.getDrawable(this, drawableView)
             }
         }
     }

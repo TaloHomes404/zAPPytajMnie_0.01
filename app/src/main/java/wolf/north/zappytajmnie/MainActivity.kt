@@ -25,12 +25,13 @@ class MainActivity : AppCompatActivity() {
         bttnStart.setOnClickListener {
             //JEŻELI TEKST JEST PUSTY TO WYŚWIETLA POWIADOMIENIE
             //JEŚLI JEST WPROWADZONY TEKST - OTWIERA NASTĘPNĄ AKTYWNOŚĆ Z QUIZEM
-            if(eTextImie.text.isEmpty()){
+            if (eTextImie.text.isEmpty()) {
                 Toast.makeText(this, "Wpisz swoje imie!", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 //TWORZYMY ZMIENNĄ intent - PRZEJŚCIE Z JEDNEGO EKRANU NA DRUGI
                 //METODA startActivity - uruchamia nową aktywność
                 val intent = Intent(this, QuizScreenActivity::class.java)
+                intent.putExtra(Constants.NAZWA_UŻYTKOWNIKA, eTextImie.text.toString())
                 startActivity(intent)
                 finish()
             }
